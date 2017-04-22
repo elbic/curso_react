@@ -12,7 +12,6 @@ export class Hello extends Component {
     return (
       <Router>
         <div>
-        
           <Route exact path="/" component={Home}/>
           <Route path="/blog" component={Blog}/>
         </div>
