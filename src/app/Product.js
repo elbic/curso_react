@@ -1,11 +1,23 @@
 import React, {Component} from 'react';
 
 export default class Product extends Component {
+  _addProduct = () => {
+    this.props.addProduct(this.props.product);
+  }
+
   render() {
     const {image, name, price, available} = this.props.product;
+    let width, widthImg;
+    if(this.props.isCart) {
+      width = '200px';
+      widthImg = '100px';
+    } else {
+      width = '400px';
+      widthImg = '200px';
+    }
     return (
       <div style={{
-        maxWidth: "400px",
+        maxWidth: width,
         display: "flex",
         border: "1px solid #4d4d4d" ,
         marginBottom: "20px"
@@ -15,7 +27,7 @@ export default class Product extends Component {
             src={image}
             style={{
               maxWidth: "100%",
-              width: "200px"
+              width: widthImg
             }}
             />
         </div>
@@ -35,6 +47,11 @@ export default class Product extends Component {
             <br/>
             {available ? 'Sí' : 'No'}
           </p>
+          {this.props.isCart ? null : (<div>
+            <button onClick={this._addProduct}>_Agregar</button>
+            <button onClick={() => this.props.addProduct(this.props.product)}>Agregar</button>
+          </div>)}
+          {this.props.isCart ? <button onClick={() => this.props.removeProduct(this.props.index)}>Quitar</button> : null}
         </div>
       </div>
     );

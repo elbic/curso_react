@@ -9,6 +9,7 @@ export default class Products extends Component {
 
     this.state = {
       list: [],
+      cart: [],
       loading: true
     }
   }
@@ -24,15 +25,48 @@ export default class Products extends Component {
       });
   }
 
+  addProduct = product => {
+    this.setState({
+      cart: this.state.cart.concat([product])
+    });
+  }
+
+  removeProduct = (index) => {
+    const newCart = this.state.cart.concat([]);
+    newCart.splice(index, 1);
+    this.setState({
+      cart: newCart
+    });
+  }
+
   render() {
     return (
       <div>
         <h1>Lista de productos</h1>
         {this.state.loading ? <p>Cargando...</p> : null}
-        <div>
-          {this.state.list.map((obj, index) => {
-            return <Product key={index} product={obj} />;
-          })}
+        <div style={{display: 'flex'}}>
+          <div>
+            {this.state.list.map((obj, index) => {
+              return <Product
+                index={index}
+                key={index}
+                product={obj}
+                addProduct={this.addProduct}
+                />;
+            })}
+          </div>
+          <div style={{marginLeft: '30px'}}>
+            <h3>Carrito</h3>
+            {this.state.cart.map((obj, index) => {
+              return <Product
+                key={index}
+                index={index}
+                isCart={true}
+                product={obj}
+                removeProduct={this.removeProduct}
+                />;
+            })}
+          </div>
         </div>
       </div>
     );
